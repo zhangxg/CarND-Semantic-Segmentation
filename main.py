@@ -139,7 +139,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
   """
   # TODO: Implement function
 
-  sess.run(tf.global_variables_initializer()a)
+  sess.run(tf.global_variables_initializer())
 
   for i in range(epochs):
     print("EPOCH {} ...".format(i + 1))
@@ -199,4 +199,7 @@ def run():
 
 
 if __name__ == '__main__':
+  import time
+  t = time.time()
   run()
+  print("Training time: " + str(time.time() - t))
