@@ -58,21 +58,32 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
   :return: The Tensor for the last layer of output
   """
 
-  using_regularizer = False
+  using_regularizer = True
+  initialize_kernel = True
 
   # TODO: Implement function
   def build_conv2d_layer(input, filter, kernel, stride=(1, 1)):
 
     if using_regularizer:
-      return tf.layers.conv2d(input, filter, kernel, strides=stride, padding="same",
-                              kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+      if initialize_kernel:
+        return tf.layers.conv2d(input, filter, kernel, strides=stride, padding="same",
+                                kernel_initializer=tf.random_normal_initializer(stddev=0.01),
+                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+      else:
+        return tf.layers.conv2d(input, filter, kernel, strides=stride, padding="same",
+                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     else:
       return tf.layers.conv2d(input, filter, kernel, strides=stride, padding="same")
 
   def build_conv2d_transpose_layer(input, filter, kernel, stride=(1, 1)):
     if using_regularizer:
-      return tf.layers.conv2d_transpose(input, filter, kernel, strides=stride, padding="same",
-                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+      if initialize_kernel:
+        return tf.layers.conv2d_transpose(input, filter, kernel, strides=stride, padding="same",
+                                          kernel_initializer=tf.random_normal_initializer(stddev=0.01),
+                                          kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+      else:
+        return tf.layers.conv2d_transpose(input, filter, kernel, strides=stride, padding="same",
+                                          kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
     else:
       return tf.layers.conv2d_transpose(input, filter, kernel, strides=stride, padding="same")
 
